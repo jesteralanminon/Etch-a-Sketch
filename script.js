@@ -1,36 +1,61 @@
 // Create the container div
 const gridContainer = document.createElement("div");
 gridContainer.id = "grid-container";
-gridContainer.style.display = "flex";
-gridContainer.style.flexWrap = "wrap";
-// gridContainer.textContent = "This is a div container";
-gridContainer.style.border = "3px solid green";
+Object.assign(gridContainer.style, {
+  display: "flex",
+  flexWrap: "wrap",
+  border: "1px solid green",
+  width: "700px",
+  height: "700px",
+  alignContent: "flex-start",
+  backgroundColor: "gray",
+});
 
-// // Create the grid square divs
-// const gridSquare = document.createElement("div");
-// gridSquare.id = "gridSquare";
-// gridSquare.textContent = "grid square";
-// gridSquare.style.display = "flex";
-// gridSquare.style.border = "1px solid black";
+// Color generator for grids
+function randomColor() {
+  return Math.floor(Math.random() * 16777215).toString(16);
+}
 
-// // Append the grid square to the container div
-// gridContainer.appendChild(gridSquare);
+// Create grid divs
+function createGrid(num) {
+  const size = 700 / num;
+  gridContainer.innerHTML = ""; // Clear previous grid squares
+  for (let i = 0; i < num * num; i++) {
+    const gridSquare = document.createElement("div");
+    gridSquare.classList.add("grid-square");
+    Object.assign(gridSquare.style, {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: `${size}px`,
+      height: `${size}px`,
+      backgroundColor: `#${randomColor()}`,
+    });
+    gridContainer.appendChild(gridSquare);
+  }
+}
+// button generator
+function addButton() {
+  const btn = document.createElement("button");
+  Object.assign(btn.style, {
+    width: "150px",
+    height: "100px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: "30px",
+  });
+  btn.textContent = "Generate Grid";
+  btn.addEventListener("click", function () {
+    const num = parseInt(prompt("Enter number of grid squares:"));
+    if (!isNaN(num)) {
+      createGrid(num);
+    }
+  });
+  document.body.appendChild(btn);
+}
 
 // Append the container div to the body
 document.body.appendChild(gridContainer);
 
-const rows = 16;
-const cols = 16;
-
-for (let i = 0; i < rows * cols; i++) {
-  const gridSquare = document.createElement("div");
-  gridSquare.classList.add("grid-square");
-  gridSquare.textContent = "Grid Square ";
-  gridSquare.style.border = "1px solid black";
-  gridSquare.style.width = "50px";
-  gridSquare.style.height = "50px";
-  gridSquare.style.flexGrow = "0";
-
-  // append the grid square to the container div
-  gridContainer.appendChild(gridSquare);
-}
+addButton();
